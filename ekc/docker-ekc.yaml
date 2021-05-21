@@ -1,0 +1,52 @@
+version: '2.2'
+services:
+  cerebro:
+    image: lmenezes/cerebro:0.8.3
+    container_name: cerebro
+    ports:
+      - "9000:9000"
+    command:
+      - -Dhosts.0.host=http://elasticsearch:9200
+    networks:
+      - es73net
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: kibana73
+    environment:
+      - I18N_LOCALE=zh-CN
+      - XPACK_GRAPH_ENABLED=true
+      - TIMELION_ENABLED=true
+      - XPACK_MONITORING_COLLECTION_ENABLED="true"
+    ports:
+      - "5601:5601"
+    networks:
+      - es73net
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: es73
+    environment:
+      - cluster.name=geektime
+      - node.name=es73
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.seed_hosts=es73
+      - cluster.initial_master_nodes=es73
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es73data1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - es73net
+
+#挂载本地
+volumes:
+  es73data1:
+    driver: local
+
+networks:
+  es73net:
+    driver: bridge
