@@ -1,0 +1,99 @@
+version: '3.1'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /Users/wangwc/devtools/es-cluster-docker/node01/data:/usr/share/elasticsearch/data
+      - /Users/wangwc/devtools/es-cluster-docker/node01/logs:/usr/share/elasticsearch/logs
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /Users/wangwc/devtools/es-cluster-docker/node02/data:/usr/share/elasticsearch/data
+      - /Users/wangwc/devtools/es-cluster-docker/node02/logs:/usr/share/elasticsearch/logs
+    networks:
+      - elastic
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /Users/wangwc/devtools/es-cluster-docker/node03/data:/usr/share/elasticsearch/data
+      - /Users/wangwc/devtools/es-cluster-docker/node03/logs:/usr/share/elasticsearch/logs
+    networks:
+      - elastic
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:7.8.0
+#    container_name: kibana
+#    environment:
+#      - I18N_LOCALE=zh-CN
+#    ports:
+#      - 5601:5601
+#    links:
+#      - es01:elasticsearch
+#    depends_on:
+#      - es01
+#      - es02
+#      - es03
+#    networks:
+#      - elastic
+#  cerebro:
+#    image: lmenezes/cerebro:0.8.3
+#    container_name: cerebro
+#    ports:
+#      - 9000:9000
+#    links:
+#      - es01:elasticsearch
+#    command:
+#      - -Dhosts.0.host=http://elasticsearch:9200
+#    networks:
+#      - elastic
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
+networks:
+  elastic:
+#    driver: bridge
