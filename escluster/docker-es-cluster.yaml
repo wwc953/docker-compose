@@ -90,8 +90,10 @@ services:
     networks:
       - elastic
   cerebro:
-    image: lmenezes/cerebro:0.8.3
-    container_name: cerebro
+#    image: lmenezes/cerebro:0.8.3
+#    container_name: cerebro83
+    image: lmenezes/cerebro:0.9.4
+    container_name: cerebro94
     ports:
       - 9000:9000
     links:
