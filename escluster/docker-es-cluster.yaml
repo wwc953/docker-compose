@@ -9,12 +9,13 @@ services:
       - discovery.seed_hosts=es02,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
+#      - /Users/wangwc/devtools/es-cluster-docker/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - /Users/wangwc/devtools/es-cluster-docker/node01/data:/usr/share/elasticsearch/data
       - /Users/wangwc/devtools/es-cluster-docker/node01/logs:/usr/share/elasticsearch/logs
     ports:
@@ -31,14 +32,17 @@ services:
       - discovery.seed_hosts=es01,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
+#      - /Users/wangwc/devtools/es-cluster-docker/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - /Users/wangwc/devtools/es-cluster-docker/node02/data:/usr/share/elasticsearch/data
       - /Users/wangwc/devtools/es-cluster-docker/node02/logs:/usr/share/elasticsearch/logs
+    depends_on:
+      - es01
     networks:
       - elastic
   es03:
@@ -50,14 +54,17 @@ services:
       - discovery.seed_hosts=es01,es02
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx1g"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
+#      - /Users/wangwc/devtools/es-cluster-docker/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - /Users/wangwc/devtools/es-cluster-docker/node03/data:/usr/share/elasticsearch/data
       - /Users/wangwc/devtools/es-cluster-docker/node03/logs:/usr/share/elasticsearch/logs
+    depends_on:
+      - es01
     networks:
       - elastic
 #  kibana:
@@ -96,4 +103,4 @@ volumes:
 
 networks:
   elastic:
-#    driver: bridge
+    driver: bridge
