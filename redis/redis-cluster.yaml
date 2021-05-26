@@ -1,19 +1,19 @@
 version: '3.1'
 services:
-  redis01:
+  redis01: # 服务的名称
     image: redis:alpine
     container_name: redis01
-    ports:
+    ports: # 宿主:docker
       - 6001:6379
 #      - 16001:16379
-    volumes:
+    volumes: # 文件夹映射 宿主:docker
       - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
     command:
       /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
     environment:
       - TZ=Asia/Shanghai
-    networks:
-      redisnet:
+    networks: ## 定义网络
+      redisnet: ## 加入的网络的名称
         ipv4_address: 172.28.0.2
   redis02:
     image: redis:alpine
@@ -91,10 +91,10 @@ services:
       redisnet:
         ipv4_address: 172.28.0.7
 
-networks:
-  redisnet:
-    driver: bridge
-    ipam:
-      driver: default
+networks: ##定义网络组
+  redisnet: ## 网络组名称
+    driver: bridge  # 网络的模式
+    ipam: #ip地址管理
       config:
-        - subnet: 172.28.0.0/24
+        - subnet: 172.28.0.0/24  # ip地址网络 这里宿主机一般会是该网段的 172.28.0.1,所以不要设置自网段为1
+#          gateway: 172.28.0.1　　  #网关地址
