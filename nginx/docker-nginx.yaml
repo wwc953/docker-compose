@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  nginx:
+#    image: nginx:latest
+    image: nginx:alpine
+    container_name: nginx01
+    ports:
+      - 8000:80
+    environment:
+      - TZ=Asia/Shanghai
+

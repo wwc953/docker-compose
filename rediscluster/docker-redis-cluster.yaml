@@ -10,3 +10,4 @@ services:
       INITIAL_PORT: 5000
       MASTERS: 3
       SLAVES_PER_MASTER: 1
+      TZ: Asia/Shanghai

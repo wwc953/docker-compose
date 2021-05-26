@@ -4,6 +4,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     container_name: es01
     environment:
+      - TZ=Asia/Shanghai
       - node.name=es01
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=es02,es03
@@ -29,6 +30,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     container_name: es02
     environment:
+      - TZ=Asia/Shanghai
       - node.name=es02
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=es01,es03
@@ -53,6 +55,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     container_name: es03
     environment:
+      - TZ=Asia/Shanghai
       - node.name=es03
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=es01,es02
@@ -78,6 +81,7 @@ services:
     container_name: kibana
     environment:
 #      - I18N_LOCALE=zh-CN
+      - TZ=Asia/Shanghai
       - I18N_LOCALE=en
     ports:
       - 5601:5601
@@ -94,6 +98,8 @@ services:
 #    container_name: cerebro83
     image: lmenezes/cerebro:0.9.4
     container_name: cerebro94
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - 9000:9000
     links:
