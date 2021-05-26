@@ -1,0 +1,90 @@
+version: '3.1'
+services:
+  redis01:
+    image: redis:alpine
+    container_name: redis01
+    ports:
+      - 6001:6379
+#      - 16001:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+      /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+  redis02:
+    image: redis:alpine
+    container_name: redis02
+    ports:
+      - 6002:6379
+#      - 16002:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+      /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+  redis03:
+    image: redis:alpine
+    container_name: redis03
+    ports:
+      - 6003:6379
+#      - 16003:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+       /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+  redis04:
+    image: redis:alpine
+    container_name: redis04
+    ports:
+      - 6004:6379
+#      - 16004:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+      /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+  redis05:
+    image: redis:alpine
+    container_name: redis05
+    ports:
+      - 6005:6379
+#      - 16005:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+      /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+  redis06:
+    image: redis:alpine
+    container_name: redis06
+    ports:
+      - 6006:6379
+#      - 16006:16379
+    volumes:
+      - /Users/wangwc/IdeaProjects/docker-compose/redis/redis.conf:/home/redis.conf
+    command:
+      /bin/sh -c "/usr/local/bin/redis-server /home/redis.conf"
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redisnet
+
+networks:
+  redisnet:
+    driver: bridge

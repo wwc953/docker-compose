@@ -1,0 +1,2 @@
+#initip=`ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'`
+docker exec -it redis01 /bin/sh -c "echo "yes" | eval /usr/local/bin/redis-cli -p 6379 --cluster create 172.28.0.2:6379 172.28.0.3:6379 172.28.0.4:6379 172.28.0.5:6379 172.28.0.6:6379 172.28.0.7:6379 --cluster-replicas 1"
