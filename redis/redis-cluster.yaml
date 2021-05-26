@@ -13,7 +13,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.2
   redis02:
     image: redis:alpine
     container_name: redis02
@@ -27,7 +28,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.3
   redis03:
     image: redis:alpine
     container_name: redis03
@@ -41,7 +43,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.4
   redis04:
     image: redis:alpine
     container_name: redis04
@@ -55,7 +58,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.5
   redis05:
     image: redis:alpine
     container_name: redis05
@@ -69,7 +73,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.6
   redis06:
     image: redis:alpine
     container_name: redis06
@@ -83,8 +88,13 @@ services:
     environment:
       - TZ=Asia/Shanghai
     networks:
-      - redisnet
+      redisnet:
+        ipv4_address: 172.28.0.7
 
 networks:
   redisnet:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/24
