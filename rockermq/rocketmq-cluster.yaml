@@ -1,0 +1,58 @@
+version: '3.5'
+services:
+  rmqnamesrv:
+    image: rocketmqinc/rocketmq:4.3.0
+    container_name: rmqnamesrv
+    ports:
+      - 9876:9876
+    volumes:
+      - ./opt/namesrv/logs:/opt/logs
+      - ./opt/namesrv/store:/opt/store
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPT_EXT: "-server -Xms512m -Xmx512m -Xmn256m"
+    command: sh mqnamesrv
+    networks:
+      rmq:
+        aliases:
+          - rmqnamesrv
+  rmqbroker:
+    image: rocketmqinc/rocketmq:4.3.0
+    container_name: rmqbroker
+    ports:
+      - 10911:10911
+      - 10909:10909
+    volumes:
+      - ./opt/broker/logs:/opt/logs
+      - ./opt/broker/store:/opt/store
+      - ./root/broker.conf:/opt/rocketmq-4.3.0/conf/broker.conf
+    environment:
+      TZ: Asia/Shanghai
+      NAMESRV_ADDR: "rmqnamesrv:9876"
+#      NAMESRV_ADDR: "172.20.10.4:9876"
+      MAX_POSSIBLE_HEAP: 200000000
+      JAVA_OPT_EXT: "-server -Xms1g -Xmx1g -Xmn512m"
+    command: sh mqbroker -c /opt/rocketmq-4.3.0/conf/broker.conf
+    links:
+      - rmqnamesrv:namsrv
+    networks:
+      rmq:
+        aliases:
+          - rmqbroker
+  rmqconsole:
+    image: styletang/rocketmq-console-ng
+    container_name: rmqconsole
+    ports:
+      - 6080:8080
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+#      JAVA_OPTS: "-Drocketmq.namesrv.addr=172.20.10.4:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+    networks:
+      rmq:
+        aliases:
+          - rmqconsole
+networks:
+  rmq:
+    name: rmq
+    driver: bridge
