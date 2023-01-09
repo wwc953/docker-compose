@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  # 单机
+  zk0:
+    image: zookeeper:latest
+    hostname: zk0
+    container_name: zk0
+#    volumes:
+#      - ./zoo0/data:/data
+#      - ./zoo0/datalog:/datalog
+#      - /Users/wangwc/IdeaProjects/docker-compose/zookeeper/conf/zoo.cfg:/conf/zoo.cfg
+    ports:
+      - 2184:2181
+      - 18084:8080

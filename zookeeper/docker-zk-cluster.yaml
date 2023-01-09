@@ -1,0 +1,54 @@
+version: '3.8'
+networks:
+  zknet:
+    name: zk-net
+
+services:
+  zk1:
+    image: zookeeper:latest
+    restart: always
+    hostname: zk1
+    container_name: zk1
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=0.0.0.0:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888;2181
+#    volumes:
+#      - ./zoo1/data:/data
+#      - ./zoo1/datalog:/datalog
+    ports:
+      - 2181:2181
+      - 18081:8080
+    networks:
+      - zknet
+
+  zk2:
+    image: zookeeper:latest
+    hostname: zk2
+    container_name: zk2
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zk3:2888:3888;2181
+#    volumes:
+#      - ./zoo2/data:/data
+#      - ./zoo2/datalog:/datalog
+    ports:
+      - 2182:2181
+      - 18082:8080
+    networks:
+      - zknet
+
+  zk3:
+    image: zookeeper:latest
+    hostname: zk3
+    container_name: zk3
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=0.0.0.0:2888:3888;2181
+#    volumes:
+#      - ./zoo3/data:/data
+#      - ./zoo3/datalog:/datalog
+    ports:
+      - 2183:2181
+      - 18083:8080
+    networks:
+      - zknet
