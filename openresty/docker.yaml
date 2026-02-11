@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  openresty:
+    image: openresty/openresty:1.27.1.2-0-bookworm-fat
+    container_name: openresty01
+    ports:
+      - 6443:443
+      - 8080:8080
+    volumes:
+#      - ./https-proxy-nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+#      - ./https-proxy.lua:/usr/local/openresty/nginx/conf/lua/https-proxy.lua
+      - ./socket-nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+    network_mode: "bridge"
+    environment:
+      - TZ=Asia/Shanghai
