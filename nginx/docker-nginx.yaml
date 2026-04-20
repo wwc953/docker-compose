@@ -5,10 +5,11 @@ services:
 #    image: nginx:alpine
     container_name: nginx01
     ports:
-      - 18080:1443
+      - 6443:6443
     volumes:
-      - D:\code\java\docker-compose\nginx\httpnginx.conf:/etc/nginx/nginx.conf
-      - D:\code\java\docker-compose\nginx\ssl\:/etc/nginx/ssl/
+#      - ./stream/map.conf:/etc/nginx/nginx.conf
+      - ./nginx0209-ok.conf:/etc/nginx/nginx.conf
+      - ./ssl/:/etc/nginx/ssl/
     network_mode: "bridge"
     environment:
       - TZ=Asia/Shanghai
