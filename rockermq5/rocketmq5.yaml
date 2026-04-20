@@ -38,10 +38,10 @@ services:
       - NAMESRV_ADDR=rmqnamesrv:9876
     command: sh mqproxy
   rmqconsole:
-    image: styletang/rocketmq-console-ng
+    image: apacherocketmq/rocketmq-dashboard:latest
     container_name: rmqconsole
     ports:
-      - 6080:8080
+      - 6080:8082
     environment:
       TZ: Asia/Shanghai
       JAVA_OPTS: "-Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
