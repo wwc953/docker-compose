@@ -2,8 +2,8 @@ version: '3'
 services:
   dev:
 #    image: mysql:8.0
-    image: mysql:5.7
-#    image: mysql:5.7.41
+#    image: mysql:5.7
+    image: mysql:5.7.31
     container_name: mysqldb
     command: [ "--server-id=1", "--log_bin=mysql-bin","--binlog-format=ROW","--binlog_row_image=FULL","--gtid_mode=ON", "--enforce_gtid_consistency=ON" ]
     ports:
