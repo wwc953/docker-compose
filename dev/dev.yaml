@@ -23,12 +23,13 @@ services:
       - '6379:6379'
     environment:
       TZ: Asia/Shanghai
-    volumes:
+#    volumes:
 #      - ./data:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-      - ./logs:/logs
-    #配置文件启动
-    command: redis-server /usr/local/etc/redis/redis.conf
+#      - ./redis.conf:/usr/local/etc/redis/redis.conf
+#      - ./logs:/logs
+#    #配置文件启动
+#    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server --appendonly yes
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
