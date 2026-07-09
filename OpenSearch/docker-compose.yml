@@ -9,7 +9,7 @@ services:
       - node.name=opensearch-node1
       - discovery.type=single-node                # 单节点模式
       # 禁用自动工作负载检测（非生产可关闭以省资源）
-      - plugins.security.disabled=false           # 启用安全插件（推荐）
+      - plugins.security.disabled=true           # 启用安全插件（推荐）
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=MyStrongPass123!   # 设置初始 admin 密码（至少8位，含大小写+数字+符号）
       # 调整 JVM 内存，按宿主机内存量设定，一般不超过总内存的50%
       - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
