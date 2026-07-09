@@ -1,0 +1,54 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  opensearch:
+    image: opensearchproject/opensearch:3.7.0   # 可使用 2.x 或 3.x，latest 代表最新稳定版
+    container_name: opensearch
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node                # 单节点模式
+      # 禁用自动工作负载检测（非生产可关闭以省资源）
+      - plugins.security.disabled=false           # 启用安全插件（推荐）
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=MyStrongPass123!   # 设置初始 admin 密码（至少8位，含大小写+数字+符号）
+      # 调整 JVM 内存，按宿主机内存量设定，一般不超过总内存的50%
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+      # 可选：开启 ML Commons 与其他所需插件（默认镜像已包含，无需额外安装）
+      # - DISABLE_INSTALL_DEMO_CONFIG=true         # 生产环境建议关闭 demo 证书
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#    volumes:
+#      - opensearch-data:/usr/share/opensearch/data
+#      - ./custom-opensearch.yml:/usr/share/opensearch/config/opensearch.yml  # 可选：挂载自定义配置
+    ports:
+      - "9200:9200"   # REST API
+      - "9600:9600"   # 性能分析端口
+#    networks:
+#      - opensearch-net
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:3.7.0
+    container_name: opensearch-dashboards
+    environment:
+      - OPENSEARCH_HOSTS=["https://opensearch:9200"]
+      - OPENSEARCH_USERNAME=admin
+      - OPENSEARCH_PASSWORD=MyStrongPass123!
+      # 可选：禁用 SSL 证书校验（仅开发环境）
+      - OPENSEARCH_SSL_VERIFICATIONMODE=none
+    ports:
+      - "5601:5601"
+#    networks:
+#      - opensearch-net
+    depends_on:
+      - opensearch
+
+#volumes:
+#  opensearch-data:
+
+#networks:
+#  opensearch-net:
